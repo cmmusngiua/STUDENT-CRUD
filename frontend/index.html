@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudentHub - Student Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="light-theme">
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">StudentHub</h1>
+          <p class="brand-subtitle">Student Information & Enrollment Portal</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Backend Status Pill -->
+        <div id="statusPill" class="status-pill status-checking" title="Click to test connection">
+          <span class="status-dot"></span>
+          <span id="statusText">Checking API...</span>
+        </div>
+
+        <!-- API Settings Button -->
+        <button id="btnOpenSettings" class="btn-icon" title="API Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+
+        <!-- Theme Toggle Button -->
+        <button id="btnThemeToggle" class="btn-icon" title="Toggle Theme">
+          <svg id="themeIconSun" class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <svg id="themeIconMoon" class="icon-moon hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <!-- Primary Add Student CTA -->
+        <button id="btnOpenAddModal" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          <span>Add Student</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- Stat Cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Total Students</span>
+          <span id="statTotalStudents" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-purple">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Unique Courses</span>
+          <span id="statTotalCourses" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-emerald">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Active Sections</span>
+          <span id="statTotalSections" class="stat-value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-wrapper stat-amber">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Filtered Results</span>
+          <span id="statFilteredStudents" class="stat-value">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls Bar -->
+    <section class="controls-panel">
+      <div class="search-box">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search by name, ID, course, section..." />
+        <button id="btnClearSearch" class="btn-clear hidden" title="Clear search">&times;</button>
+      </div>
+
+      <div class="filter-group">
+        <!-- Course Filter -->
+        <select id="courseFilter" class="select-input">
+          <option value="">All Courses</option>
+        </select>
+
+        <!-- Section Filter -->
+        <select id="sectionFilter" class="select-input">
+          <option value="">All Sections</option>
+        </select>
+
+        <!-- Sort Select -->
+        <select id="sortSelect" class="select-input">
+          <option value="id-asc">Sort: ID (Low to High)</option>
+          <option value="id-desc">Sort: ID (High to Low)</option>
+          <option value="name-asc">Sort: Name (A &rarr; Z)</option>
+          <option value="name-desc">Sort: Name (Z &rarr; A)</option>
+          <option value="course-asc">Sort: Course</option>
+          <option value="section-asc">Sort: Section</option>
+        </select>
+
+        <!-- View Switcher -->
+        <div class="view-toggle">
+          <button id="btnViewTable" class="view-btn active" title="Table View">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <button id="btnViewGrid" class="view-btn" title="Grid/Card View">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Quick Actions -->
+        <button id="btnRefresh" class="btn btn-secondary" title="Refresh data">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          <span>Refresh</span>
+        </button>
+
+        <button id="btnExportMenu" class="btn btn-secondary" title="Export Data">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Export</span>
+        </button>
+
+        <div id="exportDropdown" class="dropdown-menu hidden">
+          <button id="btnExportCSV" class="dropdown-item">Export as CSV</button>
+          <button id="btnExportJSON" class="dropdown-item">Export as JSON</button>
+          <button id="btnPrint" class="dropdown-item">Print Table</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connection Error Notice -->
+    <div id="connectionErrorBanner" class="connection-banner hidden">
+      <div class="banner-content">
+        <svg class="banner-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <div>
+          <h4>Unable to connect to Spring Boot backend</h4>
+          <p id="connectionErrorMessage">Make sure your Spring Boot backend is running and PostgreSQL (db_user) is active.</p>
+        </div>
+      </div>
+      <div class="banner-actions">
+        <button id="btnRetryConnection" class="btn btn-sm btn-white">Retry</button>
+        <button id="btnShowTroubleshoot" class="btn btn-sm btn-outline-white">Setup Help</button>
+      </div>
+    </div>
+
+    <!-- Main List Container -->
+    <section class="list-section">
+      <!-- Loading Skeleton -->
+      <div id="loadingIndicator" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading students from database...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-illustration">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 id="emptyTitle">No Students Found</h3>
+        <p id="emptySubtitle">Get started by registering your first student, or seed realistic demo records.</p>
+        <div class="empty-actions">
+          <button id="btnEmptyAdd" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            <span>Add Student</span>
+          </button>
+          <button id="btnSeedDemo" class="btn btn-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            <span>Seed 5 Demo Students</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Table View -->
+      <div id="tableViewWrapper" class="table-responsive hidden">
+        <table class="students-table" id="studentsTable">
+          <thead>
+            <tr>
+              <th class="th-id" data-sort="id">ID <span class="sort-icon">↕</span></th>
+              <th data-sort="name">Student Name <span class="sort-icon">↕</span></th>
+              <th data-sort="course">Course <span class="sort-icon">↕</span></th>
+              <th data-sort="section">Section <span class="sort-icon">↕</span></th>
+              <th class="th-actions text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody">
+            <!-- Dynamic student rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Grid / Card View -->
+      <div id="gridViewWrapper" class="cards-grid hidden">
+        <!-- Dynamic student cards -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Add Student -->
+  <div id="modalAddStudent" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon-badge badge-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Add New Student</h3>
+            <p>Enter the student details to register in the database</p>
+          </div>
+        </div>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+
+      <form id="formAddStudent" class="modal-body" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="addFirstname">First Name <span class="req">*</span></label>
+            <input type="text" id="addFirstname" class="form-input" placeholder="e.g. Maria" required />
+            <span class="field-error">First name is required</span>
+          </div>
+          <div class="form-group">
+            <label for="addLastname">Last Name <span class="req">*</span></label>
+            <input type="text" id="addLastname" class="form-input" placeholder="e.g. Santos" required />
+            <span class="field-error">Last name is required</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="addCourse">Course / Degree Program <span class="req">*</span></label>
+            <input type="text" id="addCourse" class="form-input" placeholder="e.g. BS Computer Science" required list="commonCourses" />
+            <datalist id="commonCourses">
+              <option value="BS Computer Science"></option>
+              <option value="BS Information Technology"></option>
+              <option value="BS Information Systems"></option>
+              <option value="BS Computer Engineering"></option>
+              <option value="BS Business Administration"></option>
+            </datalist>
+            <span class="field-error">Course is required</span>
+          </div>
+          <div class="form-group">
+            <label for="addSection">Section <span class="req">*</span></label>
+            <input type="text" id="addSection" class="form-input" placeholder="e.g. CS-3A" required list="commonSections" />
+            <datalist id="commonSections">
+              <option value="CS-1A"></option>
+              <option value="CS-2A"></option>
+              <option value="CS-3A"></option>
+              <option value="CS-4A"></option>
+              <option value="IT-1A"></option>
+              <option value="IT-2A"></option>
+              <option value="IT-3A"></option>
+              <option value="IT-4A"></option>
+            </datalist>
+            <span class="field-error">Section is required</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" id="btnSubmitAdd" class="btn btn-primary">
+            <span class="btn-text">Save Student</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Student -->
+  <div id="modalEditStudent" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon-badge badge-warning">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Edit Student Record</h3>
+            <p>Updating student #<span id="editStudentBadgeId">-</span></p>
+          </div>
+        </div>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+
+      <form id="formEditStudent" class="modal-body" novalidate>
+        <input type="hidden" id="editStudentId" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editFirstname">First Name <span class="req">*</span></label>
+            <input type="text" id="editFirstname" class="form-input" required />
+            <span class="field-error">First name is required</span>
+          </div>
+          <div class="form-group">
+            <label for="editLastname">Last Name <span class="req">*</span></label>
+            <input type="text" id="editLastname" class="form-input" required />
+            <span class="field-error">Last name is required</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editCourse">Course <span class="req">*</span></label>
+            <input type="text" id="editCourse" class="form-input" required />
+            <span class="field-error">Course is required</span>
+          </div>
+          <div class="form-group">
+            <label for="editSection">Section <span class="req">*</span></label>
+            <input type="text" id="editSection" class="form-input" required />
+            <span class="field-error">Section is required</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" id="btnSubmitEdit" class="btn btn-primary">
+            <span class="btn-text">Save Changes</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: View Student Details -->
+  <div id="modalViewStudent" class="modal-backdrop hidden">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon-badge badge-info">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Student Profile</h3>
+            <p>Database Record Overview</p>
+          </div>
+        </div>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+
+      <div class="modal-body student-detail-body">
+        <div class="detail-avatar-box">
+          <div id="viewAvatar" class="detail-avatar">JD</div>
+          <h2 id="viewFullName" class="detail-name">-</h2>
+          <span id="viewIdBadge" class="badge badge-id">ID #0</span>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">First Name</span>
+            <span id="viewFirstname" class="detail-val">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Last Name</span>
+            <span id="viewLastname" class="detail-val">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Degree Course</span>
+            <span id="viewCourse" class="detail-val detail-pill detail-course">-</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Class Section</span>
+            <span id="viewSection" class="detail-val detail-pill detail-section">-</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btnViewToEdit" class="btn btn-warning">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20h9"/>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+            <span>Edit</span>
+          </button>
+          <button type="button" class="btn btn-secondary" data-close-modal>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Delete Confirmation -->
+  <div id="modalDeleteStudent" class="modal-backdrop hidden">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon-badge badge-danger">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              <line x1="10" y1="11" x2="10" y2="17"/>
+              <line x1="14" y1="11" x2="14" y2="17"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Confirm Deletion</h3>
+            <p>This action cannot be undone</p>
+          </div>
+        </div>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="confirm-message">
+          Are you sure you want to permanently delete student
+          <strong id="deleteStudentName" class="highlight-text">-</strong>
+          (ID: <span id="deleteStudentIdText">-</span>) from the database?
+        </p>
+        <input type="hidden" id="deleteStudentId" />
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>Cancel</button>
+          <button type="button" id="btnConfirmDelete" class="btn btn-danger">
+            <span class="btn-text">Yes, Delete Student</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: API Settings -->
+  <div id="modalSettings" class="modal-backdrop hidden">
+    <div class="modal-card modal-card-sm">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon-badge badge-neutral">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>API Configuration</h3>
+            <p>Configure Spring Boot backend endpoint</p>
+          </div>
+        </div>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="inputApiBaseUrl">Backend Endpoint URL</label>
+          <input type="text" id="inputApiBaseUrl" class="form-input" placeholder="e.g. http://localhost:8080/musngi/students" />
+          <small class="field-hint">
+            • Default endpoint for standalone frontend is <code>http://localhost:8080/musngi/students</code>.
+          </small>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btnResetApiUrl" class="btn btn-secondary">Reset to Default</button>
+          <button type="button" id="btnSaveApiUrl" class="btn btn-primary">Save & Connect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Troubleshooting & Setup Guide -->
+  <div id="modalTroubleshoot" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon-badge badge-info">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Backend Setup & Help</h3>
+            <p>Ensure your Spring Boot backend & PostgreSQL are ready</p>
+          </div>
+        </div>
+        <button class="modal-close" data-close-modal>&times;</button>
+      </div>
+
+      <div class="modal-body troubleshoot-content">
+        <ol class="troubleshoot-steps">
+          <li>
+            <strong>1. PostgreSQL Database</strong>
+            <p>Verify PostgreSQL service is running and database <code>db_user</code> exists on port 5432:</p>
+            <pre><code>CREATE DATABASE db_user;</code></pre>
+          </li>
+          <li>
+            <strong>2. Run Spring Boot Backend</strong>
+            <p>In IntelliJ IDEA, run <code>StudentApplication.java</code>, or run via terminal:</p>
+            <pre><code>.\mvnw.cmd spring-boot:run</code></pre>
+          </li>
+          <li>
+            <strong>3. Open the Frontend</strong>
+            <p>Open this HTML file directly, or visit <a href="http://localhost:8080" target="_blank">http://localhost:8080</a></p>
+          </li>
+        </ol>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-close-modal>Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
